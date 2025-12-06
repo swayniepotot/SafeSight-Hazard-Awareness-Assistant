@@ -8,32 +8,36 @@ interface AlertBannerProps {
   audioEnabled: boolean;
 }
 
+// AlertBanner
 const AlertBanner: React.FC<AlertBannerProps> = ({ currentHazard, highContrast, audioEnabled }) => {
   
+  // Trigger text-to-speech whenever a new hazard is detected
   useEffect(() => {
     if (currentHazard && audioEnabled) {
-      // Basic text-to-speech for accessibility
       const utterance = new SpeechSynthesisUtterance(`Warning: ${currentHazard.description}`);
-      utterance.rate = 1.1;
-      utterance.pitch = 1.0;
-      window.speechSynthesis.cancel(); // Stop previous
-      window.speechSynthesis.speak(utterance);
+      utterance.rate = 1.1; // Slightly faster than default for urgency
+      utterance.pitch = 1.0; // Neutral pitch
+      window.speechSynthesis.speak(utterance); // Queue speech (do not cancel previous)
     }
   }, [currentHazard, audioEnabled]);
 
+  // If there is no hazard, do not render the banner
   if (!currentHazard) return null;
 
+  /** Returns the icon associated with the hazard type */
   const getIcon = (type: HazardType) => {
+    const sizeClass = "w-16 h-16"; // Standardize icon size
     switch (type) {
-      case HazardType.THERMAL: return <Flame className="w-16 h-16 animate-pulse" />;
-      case HazardType.SHARP: return <Scissors className="w-16 h-16" />;
-      case HazardType.SELF_HARM: return <Activity className="w-16 h-16" />;
-      case HazardType.PRESSURE: return <Hand className="w-16 h-16 animate-pulse" />;
-      case HazardType.REPETITIVE: return <Repeat className="w-16 h-16 animate-spin-slow" />;
-      default: return <AlertTriangle className="w-16 h-16" />;
+      case HazardType.THERMAL: return <Flame className={`${sizeClass} animate-pulse`} />;
+      case HazardType.SHARP: return <Scissors className={sizeClass} />;
+      case HazardType.SELF_HARM: return <Activity className={sizeClass} />;
+      case HazardType.PRESSURE: return <Hand className={`${sizeClass} animate-pulse`} />;
+      case HazardType.REPETITIVE: return <Repeat className={`${sizeClass} animate-spin-slow`} />;
+      default: return <AlertTriangle className={sizeClass} />;
     }
   };
 
+  /** Returns CSS classes based on severity and high contrast mode */
   const getColors = (severity: Severity) => {
     if (highContrast) {
       return 'bg-white text-black border-4 border-black';
@@ -45,17 +49,24 @@ const AlertBanner: React.FC<AlertBannerProps> = ({ currentHazard, highContrast, 
     }
   };
 
+  /** Returns a readable title for the hazard */
   const getTitle = (type: HazardType) => {
     switch(type) {
-        case HazardType.SELF_HARM: return 'INJURY RISK';
-        case HazardType.PRESSURE: return 'EXCESSIVE FORCE';
-        case HazardType.REPETITIVE: return 'REPETITIVE MOTION';
-        default: return 'HAZARD DETECTED';
+      case HazardType.SELF_HARM: return 'INJURY RISK';
+      case HazardType.PRESSURE: return 'EXCESSIVE FORCE';
+      case HazardType.REPETITIVE: return 'REPETITIVE MOTION';
+      case HazardType.SHARP: return 'SHARP OBJECT';
+      case HazardType.THERMAL: return 'HOT SURFACE';
+      default: return 'HAZARD DETECTED';
     }
   };
 
   return (
-    <div className={`fixed top-0 left-0 w-full z-50 p-6 shadow-2xl flex flex-col items-center justify-center text-center ${getColors(currentHazard.severity)}`}>
+    <div
+      className={`fixed top-0 left-0 w-full z-50 p-6 shadow-2xl flex flex-col items-center justify-center text-center ${getColors(currentHazard.severity)}`}
+      role="alert" // Accessibility: announce alerts
+      aria-live="assertive" // Screen readers will read immediately
+    >
       <div className="flex items-center gap-4 mb-2">
         {getIcon(currentHazard.type)}
         <h2 className="text-4xl font-black uppercase tracking-widest">
