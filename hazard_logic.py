@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def check_hazard_proxy(frame):
+def  check_hazard_proxy(frame):
     # 1. Define ROI: Let's choose a 100x100 box in the top-center of the frame
     h, w, _ = frame.shape
 
