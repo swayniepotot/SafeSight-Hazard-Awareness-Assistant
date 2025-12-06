@@ -1,0 +1,8 @@
+{
+  "name": "SafeSight",
+  "description": "Hazard Awareness Assistant for individuals with Congenital Insensitivity to Pain (CIP). Monitors environmental hazards (heat, sharps) and behavioral risks.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
