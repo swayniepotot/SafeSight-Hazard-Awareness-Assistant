@@ -1,9 +1,9 @@
 /**
  * MainApp.tsx
- * Main application component: sets up the main app.
+ * Main application component: sets up the main app with responsive layout.
  */
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { AppSettings, Hazard, HazardType, Severity, DetectionResponse } from '../types';
 import CameraFeed from '../../components/CameraFeed';
 import SafetyLog from '../../components/SafetyLog';
@@ -37,15 +37,15 @@ const MainApp: React.FC = () => {
       if (!result.isSafe && result.hazards.length > 0) {
         const priorityOrder = { [Severity.HIGH]: 3, [Severity.MEDIUM]: 2, [Severity.LOW]: 1, [Severity.SAFE]: 0 };
         const topHazard = result.hazards.reduce((prev, current) => {
-          const currentSev = (current.severity as Severity) || Severity.LOW;
-          const prevSev = (prev.severity as Severity) || Severity.LOW;
+          const currentSev = current.severity || Severity.LOW;
+          const prevSev = prev.severity || Severity.LOW;
           return priorityOrder[currentSev] > priorityOrder[prevSev] ? current : prev;
         });
 
         const newHazard: Hazard = {
           id: Date.now().toString(),
-          type: topHazard.type as HazardType || HazardType.NONE,
-          severity: topHazard.severity as Severity || Severity.LOW,
+          type: topHazard.type || HazardType.NONE,
+          severity: topHazard.severity || Severity.LOW,
           description: topHazard.description,
           timestamp: Date.now(),
         };
@@ -67,7 +67,7 @@ const MainApp: React.FC = () => {
 
   return (
     <div className={`flex flex-col h-full min-h-[calc(100vh-4rem)] ${settings.highContrast ? 'bg-black' : 'bg-gray-950'} transition-colors duration-300`}>
-      
+
       {/* Header */}
       <header className="flex-none p-4 flex justify-between items-center border-b border-gray-800 bg-gray-900/50 backdrop-blur-md z-10">
         <div className="flex items-center gap-3">
@@ -91,13 +91,13 @@ const MainApp: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex gap-6 p-4">
+      <main className="flex-1 flex flex-col md:flex-row gap-4 md:gap-6 p-4">
         
         {/* Left Column: Camera + Controls */}
         <div className="flex-1 flex flex-col gap-4">
           
           {/* Camera */}
-          <div className="flex-none relative rounded-2xl shadow-2xl border-2 border-gray-800 overflow-hidden" style={{ height: '110vh', minHeight: '300px', maxHeight: '500px' }}>
+          <div className="flex-none relative rounded-2xl shadow-2xl border-2 border-gray-800 overflow-hidden h-64 md:h-[400px] lg:h-[500px]">
             <CameraFeed 
               isActive={settings.monitoringActive} 
               onFrameCapture={handleFrameCapture} 
@@ -112,24 +112,25 @@ const MainApp: React.FC = () => {
             )}
           </div>
 
-          {/* Buttons below camera */}
+          {/* Control Buttons */}
           <div className="flex-none mt-2">
             <ControlPanel settings={settings} updateSettings={updateSettings} isLoading={isProcessing} />
           </div>
         </div>
 
         {/* Right Column: Safety Log */}
-        <div className="w-96 flex flex-col rounded-2xl shadow-xl border border-gray-800 overflow-hidden">
+        <div className="w-full md:w-96 flex flex-col rounded-2xl shadow-xl border border-gray-800 overflow-hidden mt-4 md:mt-0">
           <div className="p-4 border-b border-gray-800 bg-gray-800/50">
             <h2 className="font-bold text-gray-300 flex items-center gap-2">
               <BrainCircuit className="w-4 h-4" />
               DETECTION LOG
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto" style={{ maxHeight: 'calc(50vh + 60px)' }}>
+          <div className="flex-1 overflow-y-auto" style={{ maxHeight: '50vh' }}>
             <SafetyLog history={hazardHistory} highContrast={settings.highContrast} />
           </div>
         </div>
+
       </main>
     </div>
   );
