@@ -1,19 +1,46 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# SafeSight Hazard Awareness Assistant
 
-# Run and deploy your AI Studio app
+SafeSight is an AI-powered hazard monitoring application designed to help individuals with **Congenital Insensitivity to Pain (CIP)** stay safe in their environment. Using real-time webcam analysis and AI detection, SafeSight alerts users to environmental and behavioral hazards that might otherwise go unnoticed.
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/drive/1d7ISyajoNiOZYF9FHHwQRTT8-aPxVPXX
+## Table of Contents
 
-## Run Locally
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Demo](#demo)
+- [Contributing](#contributing)
+- [License](#license)
 
-**Prerequisites:**  Node.js
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Features
+
+- **Real-time hazard detection**: Monitors for thermal, sharp, pressure, repetitive, self-harm, and fall-risk hazards.
+- **Behavioral analysis**: Detects risky actions like excessive force, repetitive scratching, or contact with hot surfaces.
+- **Audio alerts**: Immediate text-to-speech notifications for detected hazards.
+- **Dashboard and logs**: View current hazards and history of detected events.
+- **Responsive UI**: Works on both desktop and mobile devices.
+
+---
+
+## Technologies
+
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Routing**: React Router
+- **AI Integration**: Google Gemini AI API
+- **Build Tools**: Vite
+- **Deployment**: Vercel
+
+---
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/SafeSight-Hazard-Awareness-Assistant.git
+cd SafeSight-Hazard-Awareness-Assistant
