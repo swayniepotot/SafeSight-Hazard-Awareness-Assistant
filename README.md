@@ -35,49 +35,6 @@ SafeSight is an AI-powered hazard monitoring application designed to help indivi
 - **Build Tools**: Vite
 - **Deployment**: Vercel
 
----
-
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/SafeSight-Hazard-Awareness-Assistant.git
-cd SafeSight-Hazard-Awareness-Assistant
-```
-
-2. Install dependencies:
-
-npm install
-
-
-Create a .env file in the root directory and add your API key:
-
-VITE_GEMINI_API_KEY=your_api_key_here
-
-Usage
-
-Start the development server:
-
-npm run dev
-
-
-Open your browser at http://localhost:3000. The app supports mobile and desktop views.
-
-Navigate between pages:
-
-Home: Introduction and problem/solution overview
-
-App: Real-time hazard monitoring dashboard
-
-Contact: Send feedback or inquiries
-
-To create a production build:
-
-npm run build
-
-
-Deploy to Replit or another hosting provider.
 
 Project Structure
 .
@@ -95,20 +52,6 @@ Project Structure
 └── README.md
 
 
-Contributing
-
-Fork the repository.
-
-Create a new branch: git checkout -b feature/YourFeature.
-
-Make your changes.
-
-Commit your changes: git commit -m "Add YourFeature".
-
-Push to the branch: git push origin feature/YourFeature.
-
-Open a Pull Request.
-
 License
 
-MIT License © 2025 SafeSight
+© 2025 SafeSight
